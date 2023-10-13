@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #fafbfc;
+        }
+
+        .container {
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 36px;
+            color: #007bff;
+        }
+
+        .btn {
+            margin: 10px;
+        }
+
+        img {
+            max-width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>API Website</h1>
+        <img src="apiimage.jpeg" alt="Your Image Description" width="300" height="200">
+        <p>Explore the amazing features of our website:</p>
+        <a href="PostData.html" class="btn btn-primary">Add Record</a>
+        <a href="ShowUpdateDelete.html" class="btn btn-warning">Show Update Delete Record</a>
+        <div id="timer"></div>
+    </div>
+
+    <script>
+        function updateTimer() {
+            const timerElement = document.getElementById('timer');
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            timerElement.innerText = `Current Time: ${hours}:${minutes}:${seconds}`;
+        }
+
+        setInterval(updateTimer, 1000);
+    </script>
+</body>
+</html>
