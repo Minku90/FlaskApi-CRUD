@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>POST Request</title>
+  <!-- Include Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="container mt-5">
+    <h1>POST Request</h1>
+    <form id="postForm">
+      <div class="form-group">
+        <label for="id">ID:</label>
+        <input type="number" class="form-control" id="id" name="id" required>
+      </div>
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" class="form-control" id="name" name="name" required pattern="[A-Za-z ]+" title="Please enter only letters">
+      </div>
+      <div class="form-group">
+        <label for="language">Language:</label>
+        <input type="text" class="form-control" id="language" name="language" required pattern="[A-Za-z ]+" title="Please enter only letters">
+      </div>
+      <div class="form-group">
+        <label for="age">Age:</label>
+        <input type="number" class="form-control" id="age" name="age" required>
+      </div>
+      <button type="submit" class="btn btn-primary" id="sendButton">Send POST Request</button>
+      <a href="HomePage.html" class="btn btn-info">Home</a>
+    </form>
+    <!-- Element to display success message -->
+    <div id="successMessage" class="alert alert-success mt-3" style="display: none;">Successfully saved data</div>
+    <div id="errorMessage" class="alert alert-danger mt-3" style="display: none;">ID already exists</div>
+
+  </div>
+
+  <!-- Include Bootstrap JS and jQuery -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <script>
+    document
+      .getElementById("postForm")
+      .addEventListener("submit", function (event) {
+        event.preventDefault(); // Prevent the default form submission
+  
+        // Define the API endpoint URL
+        const apiUrl = "http://127.0.0.1:5000/"; // Replace with your API endpoint URL
+  
+        // Create an object with the form data
+        const formData = {
+          ID: document.getElementById("id").value,
+          Name: document.getElementById("name").value,
+          Language: document.getElementById("language").value,
+          Age: document.getElementById("age").value,
+        };
+  
+        // Create a new XMLHttpRequest object
+        const xhr = new XMLHttpRequest();
+  
+        // Configure the request
+        xhr.open("POST", apiUrl, true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+  
+        // Define a callback function to handle the response
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+              // Request was successful, handle the response here
+              const response = JSON.parse(xhr.responseText);
+              console.log(response);
+  
+              // Show the success message and clear the input fields
+              document.getElementById("successMessage").style.display = "block";
+              document.getElementById("errorMessage").style.display = "none";
+              document.getElementById("id").value = "";
+              document.getElementById("name").value = "";
+              document.getElementById("language").value = "";
+              document.getElementById("age").value = "";
+            } else if (xhr.status === 409) {
+              // ID already exists, display an error message
+              // Show the error message and clear the input fields
+              document.getElementById("successMessage").style.display = "none";
+              document.getElementById("id").value = "";
+              document.getElementById("name").value = "";
+              document.getElementById("language").value = "";
+              document.getElementById("age").value = "";
+              document.getElementById("errorMessage").style.display = "block";
+            } else {
+              // Request failed for other reasons
+              console.error("POST request failed.");
+            }
+          }
+        };
+  
+        // Convert the form data object to a JSON string
+        const jsonData = JSON.stringify(formData);
+  
+        // Send the POST request
+        xhr.send(jsonData);
+      });
+  </script>
+  
+
+</body>
+</html>
